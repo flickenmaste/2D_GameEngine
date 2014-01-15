@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="libs\scripts\scriptstdstring\scriptstdstring.cpp" />
     <ClCompile Include="libs\xml\tinystr.cpp" />
     <ClCompile Include="libs\xml\tinyxml.cpp" />
     <ClCompile Include="libs\xml\tinyxml2.cpp" />
@@ -27,6 +28,9 @@
     <ClInclude Include="include\Engine.h" />
     <ClInclude Include="include\XML.h" />
     <ClInclude Include="include\XML2.h" />
+    <ClInclude Include="libs\as\include\angelscript.h" />
+    <ClInclude Include="libs\math\include\Mathlib.h" />
+    <ClInclude Include="libs\scripts\scriptstdstring\scriptstdstring.h" />
     <ClInclude Include="libs\xml\tinystr.h" />
     <ClInclude Include="libs\xml\tinyxml.h" />
     <ClInclude Include="libs\xml\tinyxml2.h" />
@@ -58,10 +62,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(ProjectDir)\libs\glfw\include;$(ProjectDir)\libs\glew\include;$(ProjectDir)\libs\fi\dist;$(ProjectDir)\include;$(ProjectDir)\libs\xml;$(ProjectDir)\libs\as\include;$(ProjectDir)\libs\scripts\scriptstdstring;$(ProjectDir)\libs\scripts\scriptbuilder;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)\libs\glfw\include;$(ProjectDir)\libs\glew\include;$(ProjectDir)\libs\fi\dist;$(ProjectDir)\include;$(ProjectDir)\libs\xml;$(ProjectDir)\libs\as\include;$(ProjectDir)\libs\scripts\scriptstdstring;$(ProjectDir)\libs\scripts\scriptbuilder;$(ProjectDir)\libs\math\include;$(ProjectDir)\libs\fmod;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LibraryPath>$(ProjectDir)\libs\glfw\lib-msvc100;$(ProjectDir)\libs\glew\lib;$(ProjectDir)\libs\fi\dist;$(ProjectDir)\libs\as\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)\libs\glfw\lib-msvc100;$(ProjectDir)\libs\glew\lib;$(ProjectDir)\libs\fi\dist;$(ProjectDir)\libs\as\lib;$(ProjectDir)\libs\math\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -70,7 +74,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw.lib;opengl32.lib;glew32.lib;FreeImage.lib;angelscriptd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw.lib;opengl32.lib;glew32.lib;FreeImage.lib;angelscriptd.lib;winmm.lib;Mathlib_static.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

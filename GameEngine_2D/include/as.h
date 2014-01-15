@@ -18,7 +18,7 @@ using namespace std;
 static class as
 {
 public:
-
+	static int RunApplication();
 };
 
 #endif

@@ -11,6 +11,8 @@
 #include <XML.h>
 #include <XML2.h>
 #include <as.h>
+//#include <FMODwrapper.h>
+#include <Mathlib.h>
 #include <cstdio>
 
 static class Engine

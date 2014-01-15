@@ -5,6 +5,8 @@
 
 int main()
 {
+	as::RunApplication();
+	system("pause");
 	tiny::parseDoc("settings.xml");
 	tiny2::parseDoc("settings.xml");
 	Engine::openWindow();

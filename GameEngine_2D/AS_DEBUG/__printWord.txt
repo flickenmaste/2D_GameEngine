@@ -1,0 +1,25 @@
+void printWord()
+
+Temps: 8
+
+Variables: 
+ 008: string {noname}
+
+
+- 3,5 -
+    0   8 *    SUSPEND
+    1   8 *    STR      0         (l:12 s:"Hello worl")
+    2  10 *    CALLSYS  33           (const string& _string_factory_(const int, const uint8&))
+    4   8 *    PshRPtr
+    5   9 *    PSF      v8
+    6  10 *    CALLSYS  35           (string::string(const string&in))
+    8   8 *    ObjInfo  v8, 1
+    8   8 *    PSF      v8
+    9   9 *    CALLSYS  72           (void print(const string&in))
+   11   8 *    PSF      v8
+   12   9 *    CALLSYS  36           (string::~string())
+- 4,4 -
+   14   8 *    ObjInfo  v8, 0
+   14   8 *    SUSPEND
+   15   8 * 0:
+   15   8 *    RET      0
