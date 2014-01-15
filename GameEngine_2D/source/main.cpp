@@ -1,14 +1,10 @@
 // Will Gilstrap - Game Engine
-// 1/14/2013
+// 1/15/2013
 
 #include <Engine.h>
 
 int main()
 {
-	as::RunApplication();
-	system("pause");
-	tiny::parseDoc("settings.xml");
-	tiny2::parseDoc("settings.xml");
-	Engine::openWindow();
+	Engine e;
 	return 0;
 }

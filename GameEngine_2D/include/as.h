@@ -1,5 +1,5 @@
 // Will Gilstrap - Game Engine
-// 1/14/2013
+// 1/15/2013
 
 #ifndef __AS_H__
 #define __AS_H__
@@ -18,7 +18,7 @@ using namespace std;
 static class as
 {
 public:
-	static int RunApplication();
+	static int RunApplication(); // Compile and run scripts
 };
 
 #endif

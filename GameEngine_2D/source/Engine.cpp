@@ -1,11 +1,27 @@
 // Will Gilstrap - Game Engine
-// 1/14/2013
+// 1/15/2013
 
 #include <Engine.h>
 
 bool g_bWindowClosed = false; 
 bool g_bFullscreen = false;
 char * a_pWindowTitle = "Game";
+
+Engine::Engine()
+{
+	
+	as::RunApplication();
+	system("pause");
+	tiny::parseDoc("settings.xml");
+	tiny2::parseDoc("settings.xml");
+	Engine::openWindow();
+
+}
+
+Engine::~Engine()
+{
+
+}
 
 int GLFWCALL Engine::windowCloseListener() 
 { 

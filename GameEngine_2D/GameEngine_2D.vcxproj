@@ -19,6 +19,8 @@
     <ClCompile Include="libs\xml\tinyxmlparser.cpp" />
     <ClCompile Include="source\as.cpp" />
     <ClCompile Include="source\Engine.cpp" />
+    <ClCompile Include="source\Entity.cpp" />
+    <ClCompile Include="source\GameStates.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\XML.cpp" />
     <ClCompile Include="source\XML2.cpp" />
@@ -26,6 +28,8 @@
   <ItemGroup>
     <ClInclude Include="include\as.h" />
     <ClInclude Include="include\Engine.h" />
+    <ClInclude Include="include\Entity.h" />
+    <ClInclude Include="include\GameStates.h" />
     <ClInclude Include="include\XML.h" />
     <ClInclude Include="include\XML2.h" />
     <ClInclude Include="libs\as\include\angelscript.h" />
@@ -62,10 +66,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(ProjectDir)\libs\glfw\include;$(ProjectDir)\libs\glew\include;$(ProjectDir)\libs\fi\dist;$(ProjectDir)\include;$(ProjectDir)\libs\xml;$(ProjectDir)\libs\as\include;$(ProjectDir)\libs\scripts\scriptstdstring;$(ProjectDir)\libs\scripts\scriptbuilder;$(ProjectDir)\libs\math\include;$(ProjectDir)\libs\fmod;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)\libs\glfw\include;$(ProjectDir)\libs\glew\include;$(ProjectDir)\libs\fi\dist;$(ProjectDir)\include;$(ProjectDir)\libs\as\include;$(ProjectDir)\libs\scripts\scriptstdstring;$(ProjectDir)\libs\scripts\scriptbuilder;$(ProjectDir)\libs\math\include;$(ProjectDir)\libs\xml;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LibraryPath>$(ProjectDir)\libs\glfw\lib-msvc100;$(ProjectDir)\libs\glew\lib;$(ProjectDir)\libs\fi\dist;$(ProjectDir)\libs\as\lib;$(ProjectDir)\libs\math\lib;$(LibraryPath)</LibraryPath>
+    <SourcePath>$(ProjectDir)\libs\fmod;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
