@@ -9,6 +9,7 @@
 #include <GL/glfw.h>
 #include <FreeImage.h>
 #include <XML.h>
+#include <XML2.h>
 #include <as.h>
 #include <cstdio>
 

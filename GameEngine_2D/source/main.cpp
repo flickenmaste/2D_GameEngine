@@ -6,6 +6,7 @@
 int main()
 {
 	tiny::parseDoc("settings.xml");
+	tiny2::parseDoc("settings.xml");
 	Engine::openWindow();
 	return 0;
 }

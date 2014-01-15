@@ -42,6 +42,9 @@
     <ClCompile Include="libs\xml\tinyxml2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\XML2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Engine.h">
@@ -62,10 +65,8 @@
     <ClInclude Include="libs\xml\tinyxml2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="source\settings.xml">
-      <Filter>Source Files</Filter>
-    </None>
+    <ClInclude Include="include\XML2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
