@@ -1,5 +1,5 @@
 // Will Gilstrap - Game Engine
-// 1/21/2013
+// 1/22/2013
 
 #ifndef __ENGINE_H__
 #define __ENGINE_H__
@@ -8,7 +8,6 @@
 #define GLFW_DLL
 #include <GL\glfw3.h>
 #include <stdio.h>
-#include <FreeImage.h>
 #include <XML.h>
 #include <XML2.h>
 #include <as.h>
@@ -16,7 +15,7 @@
 #include <Sprite.h>
 //#include <FMODwrapper.h>
 #include <Mathlib.h>
-//#include <GLlog.h>
+#include <GLlog.h>
 #include <cstdio>
 #include <vector>
 #include <stack>
@@ -51,6 +50,5 @@ public:
 
 
 };
-
 
 #endif

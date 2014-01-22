@@ -1,5 +1,5 @@
 // Will Gilstrap - Game Engine
-// 1/21/2013
+// 1/22/2013
 
 #include <Engine.h>
 
@@ -30,7 +30,7 @@ Engine::~Engine()
 void glfw_error_callback (int error, const char* description)
 {
 	fputs (description, stderr);
-	//gl_log (description, __FILE__, __LINE__);
+	gl_log (description, __FILE__, __LINE__);
 }
 
 // open GLFW window
@@ -39,7 +39,7 @@ unsigned int Engine::OpenWindow()
 
 	char message[256];
 	sprintf (message, "starting GLFW %s", glfwGetVersionString () );
-	//assert (gl_log (message, __FILE__, __LINE__));
+	assert (gl_log (message, __FILE__, __LINE__));
 	glfwSetErrorCallback (glfw_error_callback);
 	
 	// Open an OS window using GLFW
@@ -88,8 +88,10 @@ unsigned int Engine::OpenWindow()
 void Engine::RunGame()
 {
 	Sprite player;
-	player.CreateSquare();
-	player.CreateShaders();
+	vector3 move = {500, 300, 0};
+	Matrix4 doTranslation = Matrix4::CreateTranslation(move);
+	player.LoadTexture("face.bmp");
+	player.LoadTexShaders();
 	
 	// Draw stuff
 	while (!glfwWindowShouldClose (window))
@@ -101,10 +103,8 @@ void Engine::RunGame()
 
 		// Wipe the drawing surface clear
 		glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glUseProgram (player.shaderProgram);
-		glBindVertexArray (player.VAO);
-		// draw points 0-3 from the currently bound VAO with current in-use shader
-		glDrawArrays(GL_TRIANGLE_STRIP, 0, 6);
+		// Draw sprite
+		player.DrawTex();
 		// Update other events like input handling
 		glfwPollEvents ();
 		if (GLFW_PRESS == glfwGetKey (window, GLFW_KEY_ESCAPE))

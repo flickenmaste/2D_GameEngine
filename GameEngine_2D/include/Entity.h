@@ -1,10 +1,11 @@
 // Will Gilstrap - Game Engine
-// 1/21/2013
+// 1/22/2013
 
 #ifndef __ENTITY_H__
 #define __ENTITY_H__
 
 #include <Vector2.h>
+#include <Matrix.h>
 
 class Entity
 {
