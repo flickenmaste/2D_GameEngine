@@ -22,6 +22,7 @@
     <ClCompile Include="source\Entity.cpp" />
     <ClCompile Include="source\GameStates.cpp" />
     <ClCompile Include="source\main.cpp" />
+    <ClCompile Include="source\Sprite.cpp" />
     <ClCompile Include="source\XML.cpp" />
     <ClCompile Include="source\XML2.cpp" />
   </ItemGroup>
@@ -30,6 +31,9 @@
     <ClInclude Include="include\Engine.h" />
     <ClInclude Include="include\Entity.h" />
     <ClInclude Include="include\GameStates.h" />
+    <ClInclude Include="include\GLlog.h" />
+    <ClInclude Include="include\Sprite.h" />
+    <ClInclude Include="include\TextFileReader.h" />
     <ClInclude Include="include\XML.h" />
     <ClInclude Include="include\XML2.h" />
     <ClInclude Include="libs\as\include\angelscript.h" />
@@ -79,7 +83,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw.lib;opengl32.lib;glew32.lib;FreeImage.lib;angelscriptd.lib;winmm.lib;Mathlib_static.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3dll.lib;opengl32.lib;glew32.lib;FreeImage.lib;angelscriptd.lib;winmm.lib;Mathlib_static.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

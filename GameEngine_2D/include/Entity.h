@@ -1,12 +1,12 @@
 // Will Gilstrap - Game Engine
-// 1/15/2013
+// 1/21/2013
 
 #ifndef __ENTITY_H__
 #define __ENTITY_H__
 
 #include <Vector2.h>
 
-static class Entity
+class Entity
 {
 public:
 	vector2 position;

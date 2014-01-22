@@ -1,155 +1,144 @@
 // Will Gilstrap - Game Engine
-// 1/15/2013
+// 1/21/2013
 
 #include <Engine.h>
 
-bool g_bWindowClosed = false; 
-bool g_bFullscreen = false;
-char * a_pWindowTitle = "Game";
+// Globals
+GLFWwindow * window;
+// Keep track of window size for things like the viewport and the mouse cursor
+int g_gl_width = 640;
+int g_gl_height = 480;
 
+// Constructor
 Engine::Engine()
 {
 	
 	as::RunApplication();
-	system("pause");
 	tiny::parseDoc("settings.xml");
 	tiny2::parseDoc("settings.xml");
-	Engine::openWindow();
-
+	Engine::OpenWindow();
+	Engine::RunGame();
 }
 
+// Destructor
 Engine::~Engine()
 {
-
+	glfwTerminate();
 }
 
-int GLFWCALL Engine::windowCloseListener() 
-{ 
-	g_bWindowClosed = true; 
-	return 0; 
-}
-
-int Engine::openWindow()
+// error message
+void glfw_error_callback (int error, const char* description)
 {
-	//We need to call glfwInit() to init GLFW if this returns a value other than 
-	// 0 we have been unable to create a window or OpenGL context 
-	if( !glfwInit() ) 
-	{ 
-		return -1; 
-	} 
-	//This is a Window hint to tell GLFW that we do not wish to allow our window to 
-	//be resizeable
-	glfwOpenWindowHint(GLFW_WINDOW_NO_RESIZE, GL_TRUE); 
-	//This is the call to GLFW to open our window 
-	glfwOpenWindow( 1024, 768, // resolution 
-		8,8,8,8, // bits per colour channel (RGBA)
-		24, // depth bits 
-		8, // stencil bits 
-		(g_bFullscreen)? GLFW_FULLSCREEN:GLFW_WINDOW); 
-	//Here we are setting the title for our window 
-	glfwSetWindowTitle((a_pWindowTitle != NULL)? a_pWindowTitle : "GLFW Window"); 
-	glfwSwapInterval(0); 
-	//set listeners for window events such as close window 
-	//windowCloseListener is a static function that will be called when the close 
-	//button on the window is clicked  
-	glfwSetWindowCloseCallback(&windowCloseListener); 
-	//………Insert this into the main.cpp example given in the setting up GLFW section 
-	// start GLEW 
-	if (glewInit() != GLEW_OK) 
-	{ 
-		// OpenGL didn't start-up! shutdown GLFW and return an error code 
-		glfwTerminate(); 
-		return -1; 
-	} 
-
-	//Set the clear colour for OpenGL 
-	glClearColor( 0.f, 0.4f, 0.65f, 1.f); 
-	glColor4f( 0.f, 0.f, 0.f, 1.f ); 
-	//As we're going to draw in 2D set up an orthographic projection. 
-	//This type of projection has no perspective. This projection is set up so 
-	//that one pixel on the screen is one unit in 
-	//world co-ordinates 
-	glMatrixMode(GL_PROJECTION); 
-	glLoadIdentity(); 
-	//Older versions of OpenGL allow you to set up a view matrix with the following 
-	//call. 
-	//this function is no longer supported in more recent versions of OpenGL 
-	glOrtho( 0.f, 1024, 768, 0.f, 0.f, 100.f ); 
-	//Enable some Blending. 
-	glEnable(GL_BLEND); 
-	glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ); 
-
-	glEnable(GL_DEPTH); 
-	glDepthFunc(GL_LEQUAL);
+	fputs (description, stderr);
+	//gl_log (description, __FILE__, __LINE__);
 }
 
-unsigned int Engine::LoadTexture(const char* a_szTexture, unsigned int a_uiFormat /* = GL_RGBA */)
-{ 
-	FIBITMAP* pBitmap = nullptr; 
+// open GLFW window
+unsigned int Engine::OpenWindow()
+{
 
-	// check the file signature and deduce its format and load it 
-	FREE_IMAGE_FORMAT fif = FreeImage_GetFileType(a_szTexture, 0); 
-	if (fif != FIF_UNKNOWN && FreeImage_FIFSupportsReading(fif)) 
-	{ 
-		pBitmap = FreeImage_Load(fif, a_szTexture); 
-	} 
+	char message[256];
+	sprintf (message, "starting GLFW %s", glfwGetVersionString () );
+	//assert (gl_log (message, __FILE__, __LINE__));
+	glfwSetErrorCallback (glfw_error_callback);
+	
+	// Open an OS window using GLFW
+	if (!glfwInit())
+	{
+		fprintf (stderr, "ERROR: could not start GLFW3\n");
+		return 1;
+	}
 
-	if (pBitmap == nullptr) 
-	{ 
-		printf("Error: Failed to load image '%s'!\n", a_szTexture);
-		printf(a_szTexture);
-		return 0; 
-	} 
+	// AntiAliasing
+	glfwWindowHint (GLFW_SAMPLES, 4);
 
-	// optionally get the image width and height 
-	//if (a_uiWidth != nullptr) 
-	//*a_uiWidth = FreeImage_GetWidth(pBitmap); 
-	//if (a_uiHeight != nullptr) 
-	//*a_uiHeight = FreeImage_GetHeight(pBitmap); 
+	// Get the primary monitor
+	GLFWmonitor* mon = glfwGetPrimaryMonitor ();
 
-	// force the image to RGBA 
-	unsigned int bpp = FreeImage_GetBPP(pBitmap); 
-	//if( a_uiBPP != nullptr ) 
-	bpp = bpp/8; 
+	// THis lets us use the video mode for the monitor we pass
+	const GLFWvidmode* vmode = glfwGetVideoMode (mon);
 
-	FREE_IMAGE_COLOR_TYPE fi_colourType = FreeImage_GetColorType(pBitmap); 
-	if (fi_colourType != FIC_RGBALPHA ) 
-	{ 
-		FIBITMAP* ndib = FreeImage_ConvertTo32Bits(pBitmap); 
-		FreeImage_Unload(pBitmap); 
-		pBitmap = ndib; 
-		bpp = FreeImage_GetBPP(pBitmap); 
-		fi_colourType = FreeImage_GetColorType(pBitmap); 
-	} 
+	window = glfwCreateWindow(vmode->width, vmode->height, "Hello Triangle", NULL /* or mon for fscreen */, NULL);
+	if (!window)
+	{
+		fprintf (stderr, "ERROR: could not open window with GLFW3\n");
+		glfwTerminate();
+		return 1;
+	}
 
-	// get the pixel data 
-	BYTE* pData = FreeImage_GetBits(pBitmap); 
+	glfwSetWindowSize(window, vmode->width, vmode->height);
+	glfwMakeContextCurrent(window);
+	// Start GLEW extension handler
+	glewExperimental = GL_TRUE;
+	glewInit();
+	// Get version info
+	const GLubyte* renderer = glGetString (GL_RENDERER);	// Get Renderer string
+	const GLubyte* version = glGetString (GL_VERSION); // Version as a string
+	printf ("Renderer %s\n", renderer);
+	printf ("OpenGL version supported %s\n", version);
 
-	// try to determine data type of file (bytes/floats) 
-	FREE_IMAGE_TYPE fit = FreeImage_GetImageType(pBitmap); 
-	GLenum eType = (fit == FIT_RGBF || fit == FIT_FLOAT) ? 
-GL_FLOAT:GL_UNSIGNED_BYTE; 
+	// Tell GL to only draw onto a pixel if the shape is closer to the viewer
+	glEnable (GL_DEPTH_TEST);	// enable depth-testing
+	glDepthFunc (GL_LESS);
+	// Depth-testing interprets a smaller value as "closer"
 
-	// create GL texture 
-	GLuint textureID = -1; 
-	glGenTextures( 1, &textureID ); 
-	glBindTexture( GL_TEXTURE_2D, textureID ); 
-	glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, 
-		FreeImage_GetWidth(pBitmap), 
-		FreeImage_GetHeight(pBitmap), 0, 
-		a_uiFormat, eType, pData); 
+}
 
-	// specify default filtering and wrapping 
-	glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); 
-	glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); 
-	glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE ); 
-	glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
+// Run the game
+void Engine::RunGame()
+{
+	Sprite player;
+	player.CreateSquare();
+	player.CreateShaders();
+	
+	// Draw stuff
+	while (!glfwWindowShouldClose (window))
+	{
+		// Draw FPS
+		_update_fps_counter (window);
+		
+		glViewport (0, 0, g_gl_width, g_gl_height);
 
-	// unbind texture 
-	glBindTexture( GL_TEXTURE_2D, 0 ); 
+		// Wipe the drawing surface clear
+		glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glUseProgram (player.shaderProgram);
+		glBindVertexArray (player.VAO);
+		// draw points 0-3 from the currently bound VAO with current in-use shader
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, 6);
+		// Update other events like input handling
+		glfwPollEvents ();
+		if (GLFW_PRESS == glfwGetKey (window, GLFW_KEY_ESCAPE))
+		{
+			glfwSetWindowShouldClose (window, 1);
+		}
+		// Put the stuff we've been drawing on the display
+		glfwSwapBuffers (window);
+	}
 
-	// delete data 
-	FreeImage_Unload(pBitmap); 
+}
 
-	return textureID; 
-} 
+// A call-back function
+void Engine::glfw_window_size_callback (GLFWwindow* window, int width, int height)
+{
+	g_gl_width = width;
+	g_gl_height = height;
+
+	// update any perspective matrices used here
+}
+
+// Draw fps
+void Engine::_update_fps_counter (GLFWwindow* window) {
+	static double previous_seconds = glfwGetTime ();
+	static int frame_count;
+	double current_seconds = glfwGetTime ();
+	double elapsed_seconds = current_seconds - previous_seconds;
+	if (elapsed_seconds > 0.25) {
+		previous_seconds = current_seconds;
+		double fps = (double)frame_count / elapsed_seconds;
+		char tmp[128];
+		sprintf (tmp, "opengl @ fps: %.2lf", fps);
+		glfwSetWindowTitle (window, tmp);
+		frame_count = 0;
+	}
+	frame_count++;
+}

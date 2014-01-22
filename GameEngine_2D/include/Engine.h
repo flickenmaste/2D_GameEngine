@@ -1,20 +1,22 @@
 // Will Gilstrap - Game Engine
-// 1/15/2013
+// 1/21/2013
 
 #ifndef __ENGINE_H__
 #define __ENGINE_H__
 
-#include <GL/glew.h>
-#include <GL/wglew.h>
-#include <GL/glfw.h>
+#include <GL\glew.h>
+#define GLFW_DLL
+#include <GL\glfw3.h>
+#include <stdio.h>
 #include <FreeImage.h>
 #include <XML.h>
 #include <XML2.h>
 #include <as.h>
 #include <GameStates.h>
-#include <Entity.h>
+#include <Sprite.h>
 //#include <FMODwrapper.h>
 #include <Mathlib.h>
+//#include <GLlog.h>
 #include <cstdio>
 #include <vector>
 #include <stack>
@@ -29,19 +31,17 @@ private:
 	stack<unique_ptr<States>>StateStack;
 
 public:
-	struct V_2i_4f 
-	{ 
-		int iVertices[2]; 
-		float fColours[4]; 
-	}; 
-
 	Engine();	// Constructor - call functions to start up engine - scripts - XML
 	~Engine();	// Destructor - close everything
 
 	// Open GL
-	static int GLFWCALL windowCloseListener(); // Check for window close
-	static int openWindow(); // Open OpenGL window
-	static unsigned int LoadTexture(const char* a_szTexture, unsigned int a_uiFormat /* = GL_RGBA */); // Load texture
+	unsigned int OpenWindow();
+	void RunGame();
+
+	void glfw_window_size_callback (GLFWwindow* window, int width, int height);
+
+	// Draw FPS
+	void _update_fps_counter (GLFWwindow* window);
 
 	// State stack
 	void AddStack();	// Add to the stack
