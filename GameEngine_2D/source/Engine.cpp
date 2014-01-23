@@ -88,7 +88,7 @@ unsigned int Engine::OpenWindow()
 void Engine::RunGame()
 {
 	Sprite player;
-	vector3 move = {500, 300, 0};
+	vector3 move = {0.5f, 0.0f, 0.0f};
 	Matrix4 doTranslation = Matrix4::CreateTranslation(move);
 	player.LoadTexture("face.bmp");
 	player.LoadTexShaders();

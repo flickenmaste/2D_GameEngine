@@ -14,7 +14,10 @@ public:
 	GLuint VAO;
 	GLuint EBO;
 	GLuint shaderProgram;
+	GLint uniTrans;
 	
+	// Destructor
+	~Sprite();
 
 	void CreateTriangle();
 	void CreateSquare();
@@ -23,7 +26,9 @@ public:
 	void LoadTexture(const char * filename);
 	void LoadTexShaders();
 	void LoadTexShaders(Matrix4 &translation);
+	GLfloat * TranslateTex(Matrix4 &translation);
 	void DrawTex();
+	void DrawTex(Matrix4 &translation);
 
 };
 
