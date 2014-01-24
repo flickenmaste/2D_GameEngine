@@ -1,11 +1,15 @@
 // Will Gilstrap - Game Engine
-// 1/22/2013
+// 1/23/2014
 
 #ifndef __ENTITY_H__
 #define __ENTITY_H__
 
 #include <Vector2.h>
-#include <Matrix.h>
+#include <glm.hpp>
+#include <gtc\matrix_transform.hpp>
+#include <gtc\type_ptr.hpp>
+
+using glm::mat4;
 
 class Entity
 {

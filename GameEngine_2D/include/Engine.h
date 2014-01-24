@@ -1,5 +1,5 @@
 // Will Gilstrap - Game Engine
-// 1/22/2013
+// 1/23/2014
 
 #ifndef __ENGINE_H__
 #define __ENGINE_H__
@@ -13,8 +13,9 @@
 #include <as.h>
 #include <GameStates.h>
 #include <Sprite.h>
+#include <Input.h>
 //#include <FMODwrapper.h>
-#include <Mathlib.h>
+#include <glm.hpp>
 #include <GLlog.h>
 #include <cstdio>
 #include <vector>
@@ -23,6 +24,9 @@
 
 using std::stack;
 using std::unique_ptr;
+using glm::mat4;
+using glm::vec4;
+using glm::vec3;
 
 static class Engine
 {
@@ -30,6 +34,8 @@ private:
 	stack<unique_ptr<States>>StateStack;
 
 public:
+	GLFWwindow * window;
+	
 	Engine();	// Constructor - call functions to start up engine - scripts - XML
 	~Engine();	// Destructor - close everything
 

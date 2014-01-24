@@ -1,5 +1,5 @@
 // Will Gilstrap - Game Engine
-// 1/22/2013
+// 1/23/2014
 
 #ifndef __SPRITE_H__
 #define __SPRITE_H__
@@ -24,11 +24,11 @@ public:
 	void CreateShaders();
 	void Draw();
 	void LoadTexture(const char * filename);
+	void LoadTexture(const char * filename, mat4 &trans);	// to create a sprite that moves
 	void LoadTexShaders();
-	void LoadTexShaders(Matrix4 &translation);
-	GLfloat * TranslateTex(Matrix4 &translation);
+	void LoadTexShaders(mat4 &translation);	// OLD
 	void DrawTex();
-	void DrawTex(Matrix4 &translation);
+	void DrawTex(mat4 &translation);
 
 };
 

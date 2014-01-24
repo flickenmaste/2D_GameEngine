@@ -1,18 +1,17 @@
 // Will Gilstrap - Game Engine
-// 1/22/2013
+// 1/23/2014
 
 #include <Engine.h>
 
 // Globals
-GLFWwindow * window;
+//GLFWwindow * window;
 // Keep track of window size for things like the viewport and the mouse cursor
-int g_gl_width = 640;
-int g_gl_height = 480;
+int g_gl_width = 1920;
+int g_gl_height = 1080;
 
 // Constructor
 Engine::Engine()
 {
-	
 	as::RunApplication();
 	tiny::parseDoc("settings.xml");
 	tiny2::parseDoc("settings.xml");
@@ -88,10 +87,8 @@ unsigned int Engine::OpenWindow()
 void Engine::RunGame()
 {
 	Sprite player;
-	vector3 move = {0.5f, 0.0f, 0.0f};
-	Matrix4 doTranslation = Matrix4::CreateTranslation(move);
-	player.LoadTexture("face.bmp");
-	player.LoadTexShaders();
+	mat4 trans;
+	player.LoadTexture("face.bmp", trans);
 	
 	// Draw stuff
 	while (!glfwWindowShouldClose (window))
@@ -104,13 +101,12 @@ void Engine::RunGame()
 		// Wipe the drawing surface clear
 		glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		// Draw sprite
-		player.DrawTex();
+		player.DrawTex(trans);
 		// Update other events like input handling
 		glfwPollEvents ();
-		if (GLFW_PRESS == glfwGetKey (window, GLFW_KEY_ESCAPE))
-		{
-			glfwSetWindowShouldClose (window, 1);
-		}
+		Input::Rotate(window, player, trans);
+		Input::Scale(window, player, trans);
+		Input::Move(window, player, trans);
 		// Put the stuff we've been drawing on the display
 		glfwSwapBuffers (window);
 	}
