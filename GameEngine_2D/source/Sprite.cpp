@@ -1,5 +1,5 @@
 // Will Gilstrap - Game Engine
-// 1/23/2014
+// 1/27/2014
 
 #include <Engine.h>
 #include <Sprite.h>
@@ -281,14 +281,13 @@ void Sprite::LoadTexture(const char * filename, mat4 &trans)
 	glVertexAttribPointer(texAttrib, 2, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), (void*)(5 * sizeof(GLfloat)));
 	
 	// Load textures
-	GLuint textures[1];
-	glGenTextures(1, textures);
+	glGenTextures(1, this->textures);
 
 	int width, height;
 	unsigned char* image;
 
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, textures[0]);
+	glBindTexture(GL_TEXTURE_2D, this->textures[0]);
 	image = SOIL_load_image(filename, &width, &height, 0, SOIL_LOAD_RGBA);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
 	SOIL_free_image_data(image);
@@ -302,6 +301,8 @@ void Sprite::LoadTexture(const char * filename, mat4 &trans)
 
 	this->uniTrans = glGetUniformLocation(this->shaderProgram, "model");
 	glUniformMatrix4fv(this->uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
+
+	glBindTexture(GL_TEXTURE_2D, NULL);
 }
 
 void Sprite::LoadTexShaders()
@@ -444,10 +445,12 @@ void Sprite::DrawTex()
 
 void Sprite::DrawTex(mat4 &trans)
 {
+	glBindTexture(GL_TEXTURE_2D, this->textures[0]);
 	glUseProgram(this->shaderProgram);
 	glUniformMatrix4fv(this->uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
 
 	// Draw a rectangle from the 2 triangles using 6 indices
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	glBindTexture(GL_TEXTURE_2D, NULL);
 
 }

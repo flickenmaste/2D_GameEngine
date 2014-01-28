@@ -1,5 +1,5 @@
 // Will Gilstrap - Game Engine
-// 1/23/2014
+// 1/27/2014
 
 #ifndef __SPRITE_H__
 #define __SPRITE_H__
@@ -15,6 +15,7 @@ public:
 	GLuint EBO;
 	GLuint shaderProgram;
 	GLint uniTrans;
+	GLuint textures[1];
 	
 	// Destructor
 	~Sprite();

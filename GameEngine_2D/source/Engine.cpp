@@ -1,5 +1,5 @@
 // Will Gilstrap - Game Engine
-// 1/23/2014
+// 1/27/2014
 
 #include <Engine.h>
 
@@ -88,7 +88,10 @@ void Engine::RunGame()
 {
 	Sprite player;
 	mat4 trans;
+	mat4 enemyMat;
 	player.LoadTexture("face.bmp", trans);
+	Sprite enemy;
+	enemy.LoadTexture("island.png", enemyMat);
 	
 	// Draw stuff
 	while (!glfwWindowShouldClose (window))
@@ -102,6 +105,7 @@ void Engine::RunGame()
 		glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		// Draw sprite
 		player.DrawTex(trans);
+		enemy.DrawTex(enemyMat);
 		// Update other events like input handling
 		glfwPollEvents ();
 		Input::Rotate(window, player, trans);
