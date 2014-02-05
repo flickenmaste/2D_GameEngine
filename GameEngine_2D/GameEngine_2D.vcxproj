@@ -24,7 +24,9 @@
     <ClCompile Include="source\GLlog.cpp" />
     <ClCompile Include="source\Input.cpp" />
     <ClCompile Include="source\main.cpp" />
+    <ClCompile Include="source\OpenGLText.cpp" />
     <ClCompile Include="source\Sprite.cpp" />
+    <ClCompile Include="source\Text.cpp" />
     <ClCompile Include="source\XML.cpp" />
     <ClCompile Include="source\XML2.cpp" />
   </ItemGroup>
@@ -35,8 +37,11 @@
     <ClInclude Include="include\GameStates.h" />
     <ClInclude Include="include\GLlog.h" />
     <ClInclude Include="include\Input.h" />
+    <ClInclude Include="include\OpenGLText.h" />
     <ClInclude Include="include\Sprite.h" />
+    <ClInclude Include="include\Text.h" />
     <ClInclude Include="include\TextFileReader.h" />
+    <ClInclude Include="include\tga.h" />
     <ClInclude Include="include\XML.h" />
     <ClInclude Include="include\XML2.h" />
     <ClInclude Include="libs\as\include\angelscript.h" />
@@ -74,10 +79,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(ProjectDir)\libs\glfw\include;$(ProjectDir)\libs\glew\include;$(ProjectDir)\include;$(ProjectDir)\libs\as\include;$(ProjectDir)\libs\scripts\scriptstdstring;$(ProjectDir)\libs\scripts\scriptbuilder;$(ProjectDir)\libs\math\include;$(ProjectDir)\libs\xml;$(ProjectDir)\libs\soil\include;$(ProjectDir)\libs\glm;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)\libs\glfw\include;$(ProjectDir)\libs\glew\include;$(ProjectDir)\include;$(ProjectDir)\libs\as\include;$(ProjectDir)\libs\scripts\scriptstdstring;$(ProjectDir)\libs\scripts\scriptbuilder;$(ProjectDir)\libs\math\include;$(ProjectDir)\libs\xml;$(ProjectDir)\libs\soil\include;$(ProjectDir)\libs\glm;$(ProjectDir)\libs\ft\include;$(ProjectDir)\libs\font;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LibraryPath>$(ProjectDir)\libs\glfw\lib-msvc100;$(ProjectDir)\libs\glew\lib;$(ProjectDir)\libs\as\lib;$(ProjectDir)\libs\math\lib;$(ProjectDir)\libs\soil\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)\libs\glfw\lib-msvc100;$(ProjectDir)\libs\glew\lib;$(ProjectDir)\libs\as\lib;$(ProjectDir)\libs\math\lib;$(ProjectDir)\libs\soil\lib;$(ProjectDir)\libs\ft\lib;$(LibraryPath)</LibraryPath>
     <SourcePath>$(ProjectDir)\libs\fmod;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -87,7 +92,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw3dll.lib;opengl32.lib;glew32.lib;angelscriptd.lib;winmm.lib;Mathlib_static.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3dll.lib;opengl32.lib;glew32.lib;angelscriptd.lib;winmm.lib;Mathlib_static.lib;SOIL.lib;freetype252_D.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

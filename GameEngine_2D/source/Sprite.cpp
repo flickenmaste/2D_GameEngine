@@ -1,5 +1,5 @@
 // Will Gilstrap - Game Engine
-// 1/28/2014
+// 2/4/2014
 
 #include <Engine.h>
 #include <Sprite.h>
@@ -224,10 +224,10 @@ void Sprite::LoadTexture(const char * filename, mat4 &trans)
 
 	GLfloat vertices[] = {
 		//  Position   Color             Texcoords
-		-0.5f,  0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, // Top-left
-		0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, // Top-right
-		0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, // Bottom-right
-		-0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f  // Bottom-left
+		-0.3f,  0.3f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, // Top-left
+		0.3f,  0.3f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, // Top-right
+		0.3f, -0.3f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, // Bottom-right
+		-0.3f, -0.3f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f  // Bottom-left
 	};
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -450,7 +450,7 @@ void Sprite::DrawTex(mat4 &trans)
 	glUniformMatrix4fv(this->uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
 
 	// Draw a rectangle from the 2 triangles using 6 indices
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLE_STRIP, 6, GL_UNSIGNED_INT, 0);
 	glBindTexture(GL_TEXTURE_2D, NULL);
 
 }

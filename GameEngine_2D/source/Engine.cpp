@@ -1,5 +1,5 @@
 // Will Gilstrap - Game Engine
-// 1/28/2014
+// 2/4/2014
 
 #include <Engine.h>
 
@@ -86,6 +86,9 @@ unsigned int Engine::OpenWindow()
 // Run the game
 void Engine::RunGame()
 {
+	Text type;
+	type.InitFT("Candy Script_48");
+	
 	Sprite player;
 	mat4 trans;
 	mat4 enemyMat;
@@ -106,6 +109,7 @@ void Engine::RunGame()
 		// Draw sprite
 		player.DrawTex(trans);
 		enemy.DrawTex(enemyMat);
+		type.DrawFont("Terry Sucks");	// Draws text
 		// Update other events like input handling
 		glfwPollEvents ();
 		Input::Rotate(window, player, trans);

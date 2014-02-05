@@ -1,5 +1,5 @@
 // Will Gilstrap - Game Engine
-// 1/28/2014
+// 2/4/2014
 
 #ifndef __ENTITY_H__
 #define __ENTITY_H__

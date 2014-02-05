@@ -1,5 +1,5 @@
 // Will Gilstrap - Game Engine
-// 1/28/2014
+// 2/4/2014
 
 #ifndef __ENGINE_H__
 #define __ENGINE_H__
@@ -14,6 +14,7 @@
 #include <GameStates.h>
 #include <Sprite.h>
 #include <Input.h>
+#include <Text.h>
 //#include <FMODwrapper.h>
 #include <glm.hpp>
 #include <GLlog.h>
