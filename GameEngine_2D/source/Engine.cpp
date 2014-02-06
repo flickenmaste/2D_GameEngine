@@ -8,6 +8,7 @@
 // Keep track of window size for things like the viewport and the mouse cursor
 int g_gl_width = 1920;
 int g_gl_height = 1080;
+vec2 screen(1920,1080);
 
 // Constructor
 Engine::Engine()

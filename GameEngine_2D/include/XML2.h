@@ -12,6 +12,7 @@ static class tiny2
 {
 public:
 	static void parseDoc(const char * filename);
+	void parseText(const char * filename);
 };
 
 #endif

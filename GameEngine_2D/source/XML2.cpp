@@ -24,3 +24,8 @@ void tiny2::parseDoc(const char * filename)
 	const char* settings;
 	const char* title = doc.FirstChildElement("settings")->FirstChildElement("difficulty")->FirstAttribute()->Value();
 }
+
+void tiny2::parseText(const char * filename)
+{
+
+}

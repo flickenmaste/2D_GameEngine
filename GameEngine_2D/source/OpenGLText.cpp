@@ -546,6 +546,7 @@ void OpenGLText::pushVertex( Vertex* v )
 void OpenGLText::beginString()
 {
     m_indexOffset = 0;
+	glBindTexture(GL_TEXTURE_2D, m_fontTex);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -599,6 +600,7 @@ void OpenGLText::endString()
         m_vertices.resize(0);
         m_indices.resize(0);
     }
+	 glBindTexture(GL_TEXTURE_2D, NULL);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////

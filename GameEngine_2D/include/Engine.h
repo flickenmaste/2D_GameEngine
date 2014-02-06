@@ -15,6 +15,7 @@
 #include <Sprite.h>
 #include <Input.h>
 #include <Text.h>
+#include <Mathlib.h>
 //#include <FMODwrapper.h>
 #include <glm.hpp>
 #include <GLlog.h>
@@ -28,6 +29,7 @@ using std::unique_ptr;
 using glm::mat4;
 using glm::vec4;
 using glm::vec3;
+using glm::vec2;
 
 static class Engine
 {
