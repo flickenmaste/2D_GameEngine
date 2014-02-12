@@ -1,5 +1,5 @@
 // Will Gilstrap - Game Engine
-// 2/4/2014
+// 2/11/2014
 
 #ifndef __ENGINE_H__
 #define __ENGINE_H__
@@ -54,9 +54,6 @@ public:
 	// State stack
 	void AddStack();	// Add to the stack
 	void UpdateStack();	// Update the stack
-
-
-
 
 };
 

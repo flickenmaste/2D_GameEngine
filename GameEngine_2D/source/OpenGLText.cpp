@@ -282,36 +282,30 @@ inline GLuint OpenGLText::LinkGLSLProgram( GLuint vertexShader, GLuint fragmentS
 //
 //
 char* OpenGLText::cWidgetVSSource2 = {
-    "#version 120\n\
-    uniform vec4 canvas; \n\
-\n\
-    in vec4 Position;\n\
-    in vec4 TexCoord;\n\
-    in vec4 Color;\n\
-\n\
-    void main()\n\
-    {\n\
-        gl_Position = vec4( (((Position.x) / canvas.x)*canvas.z*2.0 - 1.0), \n\
-                   (((Position.y) / canvas.y)*2.0 - 1.0), 0, 1.0); \n\
-        gl_TexCoord[0] = TexCoord; \n\
-        gl_TexCoord[1] = Color; \n\
-    }\n\
-    "};
+    "#version 330 core\n"
+    "uniform vec4 canvas;"
+    "in vec4 Position;"
+    "in vec4 TexCoord;"
+    "in vec4 Color;"
+	"void main() {"
+    "    gl_Position = vec4( (((Position.x) / canvas.x)*canvas.z*2.0 - 1.0), (((Position.y) / canvas.y)*2.0 - 1.0), 0, 1.0);"
+    "   gl_TexCoord[0] = TexCoord;"
+	"   gl_TexCoord[1] = Color;"
+	"}"
+};
 
 char* OpenGLText::cWidgetFSSource2 = {
-    "#version 120\n\
-    uniform sampler2D fontTex;\n\
-\n\
-    void main()\n\
-    {\n\
-        vec2 texUV = gl_TexCoord[0].xy; \n\
-        vec4 color; \n\
-        float distance = (texture2D( fontTex, texUV.xy ).x); \n\
-        color = gl_TexCoord[1];\n\
-        color.a *= distance;\n\
-        gl_FragColor = color; \n\
-    }\n\
-    "};
+    "#version 330 core\n"
+    "uniform sampler2D fontTex;"
+    "void main() {"
+    "    vec2 texUV = gl_TexCoord[0].xy;"
+    "    vec4 color;"
+    "    float distance = (texture2D( fontTex, texUV.xy ).x);"
+    "    color = gl_TexCoord[1];"
+    "    color.a *= distance;"
+    "    gl_FragColor = color;"
+    "}"
+};
 
 ///////////////////////////////////////////////////////////////////////////////////////
 //
@@ -546,7 +540,6 @@ void OpenGLText::pushVertex( Vertex* v )
 void OpenGLText::beginString()
 {
     m_indexOffset = 0;
-	glBindTexture(GL_TEXTURE_2D, m_fontTex);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -599,8 +592,9 @@ void OpenGLText::endString()
         //CHECKGLERRORS();
         m_vertices.resize(0);
         m_indices.resize(0);
+		glBindTexture(GL_TEXTURE_2D, NULL);
     }
-	 glBindTexture(GL_TEXTURE_2D, NULL);
+	 //glBindTexture(GL_TEXTURE_2D, NULL);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////

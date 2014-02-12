@@ -1,13 +1,13 @@
 // Will Gilstrap - Game Engine
-// 2/4/2014
+// 2/11/2014
 
 #include <Engine.h>
 
 // Globals
 //GLFWwindow * window;
 // Keep track of window size for things like the viewport and the mouse cursor
-int g_gl_width = 1920;
-int g_gl_height = 1080;
+float g_gl_width = 1920;
+float g_gl_height = 1080;
 vec2 screen(1920,1080);
 
 // Constructor
@@ -87,6 +87,9 @@ unsigned int Engine::OpenWindow()
 // Run the game
 void Engine::RunGame()
 {
+	glm::mat4 Ortho;
+	Ortho = glm::ortho(0.0f, g_gl_width, g_gl_height, 0.0f, -5.0f, 5.0f);
+	
 	Text type;
 	type.InitFT("Candy Script_48");
 	
@@ -108,9 +111,9 @@ void Engine::RunGame()
 		// Wipe the drawing surface clear
 		glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		// Draw sprite
-		player.DrawTex(trans);
-		enemy.DrawTex(enemyMat);
-		type.DrawFont("Terry Sucks");	// Draws text
+		player.DrawTex(trans, Ortho);
+		enemy.DrawTex(enemyMat, Ortho);
+		//type.DrawFont("Terry Sucks");	// Draws text
 		// Update other events like input handling
 		glfwPollEvents ();
 		Input::Rotate(window, player, trans);

@@ -10,8 +10,8 @@ bool restart_gl_log();
 
 bool gl_log (const char* message, const char* filename, int line);
 
-void printShaderInfoLog(GLuint obj);
+bool printShaderInfoLog(GLuint obj);
 
-void printProgramInfoLog(GLuint obj);
+bool printProgramInfoLog(GLuint obj);
 
 #endif

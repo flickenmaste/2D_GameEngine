@@ -52,6 +52,10 @@
     <ClInclude Include="libs\xml\tinyxml.h" />
     <ClInclude Include="libs\xml\tinyxml2.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="exampleFrag.glsl" />
+    <None Include="exampleVert.glsl" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{0E067981-23E2-46BA-9228-BA63995A6526}</ProjectGuid>
     <RootNamespace>GameEngine_2D</RootNamespace>

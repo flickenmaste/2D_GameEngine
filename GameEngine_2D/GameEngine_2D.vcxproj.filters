@@ -132,4 +132,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="exampleVert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="exampleFrag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>

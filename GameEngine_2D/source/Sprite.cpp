@@ -1,8 +1,13 @@
 // Will Gilstrap - Game Engine
-// 2/4/2014
+// 2/11/2014
 
 #include <Engine.h>
 #include <Sprite.h>
+
+Sprite::Sprite()
+{
+
+}
 
 Sprite::~Sprite()
 {
@@ -196,6 +201,8 @@ void Sprite::LoadTexture(const char * filename, mat4 &trans)
 		"in vec3 color;"
 		"in vec2 texcoord;"
 		"uniform mat4 model;"
+		"uniform mat4 projection;"
+		"uniform mat4 view;"
 		"out vec3 Color;"
 		"out vec2 Texcoord;"
 		"void main() {"
@@ -279,6 +286,10 @@ void Sprite::LoadTexture(const char * filename, mat4 &trans)
 	GLint texAttrib = glGetAttribLocation(this->shaderProgram, "texcoord");
 	glEnableVertexAttribArray(texAttrib);
 	glVertexAttribPointer(texAttrib, 2, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), (void*)(5 * sizeof(GLfloat)));
+
+	proj_location = glGetUniformLocation (this->shaderProgram, "projection");
+	
+	view_location = glGetUniformLocation (this->shaderProgram, "view");
 	
 	// Load textures
 	glGenTextures(1, this->textures);
@@ -443,14 +454,69 @@ void Sprite::DrawTex()
 
 }
 
-void Sprite::DrawTex(mat4 &trans)
+void Sprite::DrawTex(mat4 &trans, mat4 &Ortho)
 {
 	glBindTexture(GL_TEXTURE_2D, this->textures[0]);
 	glUseProgram(this->shaderProgram);
+	mat4 MVP = Ortho * trans;
 	glUniformMatrix4fv(this->uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
 
 	// Draw a rectangle from the 2 triangles using 6 indices
 	glDrawElements(GL_TRIANGLE_STRIP, 6, GL_UNSIGNED_INT, 0);
+
+	glUniformMatrix4fv(this->uniTrans, 1, GL_FALSE, glm::value_ptr(MVP));
+
 	glBindTexture(GL_TEXTURE_2D, NULL);
 
+}
+
+bool Sprite::LoadVertShader(const char* filePath)
+{
+		// Shader sources
+	const GLchar* vertexSource =
+		"#version 330 core\n"
+		"in vec2 position;"
+		"in vec3 color;"
+		"in vec2 texcoord;"
+		"uniform mat4 model;"
+		"out vec3 Color;"
+		"out vec2 Texcoord;"
+		"void main() {"
+		"   Color = color;"
+		"	Texcoord = texcoord;"
+		"   gl_Position = model * vec4(position, 0.0, 1.0);"
+		"}";
+	
+	glShaderSource(m_VertexShader, 1, &vertexSource, NULL);
+	glCompileShader(m_VertexShader);
+	return printShaderInfoLog(m_VertexShader);
+}
+
+bool Sprite::LoadFragShader(const char* filePath)
+{
+		// Shader sources
+	const GLchar* fragmentSource =
+		"#version 330 core\n"
+		"in vec3 Color;"
+		"in vec2 Texcoord;"
+		"out vec4 outColor;"
+		"uniform sampler2D texKitten;"
+		"void main() {"
+		"   outColor = texture(texKitten, Texcoord) * vec4(Color, 1.0);"
+		"}";
+	
+	glShaderSource(m_FragmentShader, 1, &fragmentSource, NULL);
+	glCompileShader(m_FragmentShader);
+	return printShaderInfoLog(m_FragmentShader);
+}
+
+bool Sprite::LinkShaders()
+{
+	glAttachShader(shaderProgram, m_FragmentShader);
+	glAttachShader(shaderProgram, m_VertexShader);
+
+	glLinkProgram(shaderProgram);
+	glUseProgram(shaderProgram);
+
+	return printProgramInfoLog(shaderProgram);
 }

@@ -1,5 +1,5 @@
 // Will Gilstrap - Game Engine
-// 2/4/2014
+// 2/11/2014
 
 #ifndef __TEXT_H__
 #define __TEXT_H__

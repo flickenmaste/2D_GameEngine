@@ -1,0 +1,12 @@
+		"#version 330 core\n"
+		"in vec2 position;"
+		"in vec3 color;"
+		"in vec2 texcoord;"
+		"uniform mat4 model;"
+		"out vec3 Color;"
+		"out vec2 Texcoord;"
+		"void main() {"
+		"   Color = color;"
+		"	Texcoord = texcoord;"
+		"   gl_Position = model * vec4(position, 0.0, 1.0);"
+		"}";
