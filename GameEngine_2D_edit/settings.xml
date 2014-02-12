@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<settings>
+
+  <!-- Difficulties -->
+  <difficulty easy="1" normal="2" hard ="3"/>
+
+  <!-- Display -->
+  <display>
+
+    <screen x="1920" y="1080"/>
+
+    <window fullscreen="1" windowed="0"/>
+
+  </display>
+
+  <!-- Sound -->
+  <sound>
+
+    <master volume="80"/>
+    <soundFX volume="80"/>
+    <music volume="40"/>
+    <voice volume="80"/>
+    <microphone volume="80"/>
+
+  </sound>
+
+  <!-- Mouse -->
+  <mouse>
+
+    <sensitivity x="4.0" y="4.0"/>
+    <inversed true="1" false="0"/>
+
+  </mouse>
+
+  <!-- Key Binds -->
+  <keys>
+
+    <forwards key="w"/>
+    <backwards key="s"/>
+    <left key="a"/>
+    <right key="d"/>
+    <jump key="space"/>
+    <use key="f"/>
+    <speak key="v"/>
+    <crouch key="ctrl"/>
+
+  </keys>
+
+</settings>

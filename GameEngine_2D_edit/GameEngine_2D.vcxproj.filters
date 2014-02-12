@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\angelscript">
+      <UniqueIdentifier>{d1dc7cf2-6366-47b6-922e-c7cf759e2b79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\externlibs">
+      <UniqueIdentifier>{c864048f-790a-4a41-9f02-b26546d02ccd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\tinyxml">
+      <UniqueIdentifier>{77217e30-4ef9-4851-a2eb-c596793623d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\angelscript">
+      <UniqueIdentifier>{5aa8caaa-f5d6-4b60-aabd-d35a1ce49b30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\externlibs">
+      <UniqueIdentifier>{4c6e5748-6cf4-4f22-8e82-9421ba026876}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\tinyxml">
+      <UniqueIdentifier>{47107896-81b6-45cf-a7ca-1680eae6f156}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="source\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\XML.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\XML2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GameStates.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Entity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Sprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GLlog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Input.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Text.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\TextFileReader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\as.cpp">
+      <Filter>Source Files\angelscript</Filter>
+    </ClCompile>
+    <ClCompile Include="source\OpenGLText.cpp">
+      <Filter>Source Files\externlibs</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\scripts\scriptstdstring\scriptstdstring.cpp">
+      <Filter>Source Files\angelscript</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\xml\tinystr.cpp">
+      <Filter>Source Files\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\xml\tinyxml.cpp">
+      <Filter>Source Files\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\xml\tinyxml2.cpp">
+      <Filter>Source Files\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\xml\tinyxmlerror.cpp">
+      <Filter>Source Files\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\xml\tinyxmlparser.cpp">
+      <Filter>Source Files\tinyxml</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\Engine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XML.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\XML2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\math\include\Mathlib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GameStates.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Sprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GLlog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TextFileReader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Input.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Text.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\as\include\angelscript.h">
+      <Filter>Header Files\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="include\as.h">
+      <Filter>Header Files\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="include\OpenGLText.h">
+      <Filter>Header Files\externlibs</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\scripts\scriptstdstring\scriptstdstring.h">
+      <Filter>Header Files\angelscript</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\soil\include\SOIL.h">
+      <Filter>Header Files\externlibs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\tga.h">
+      <Filter>Header Files\externlibs</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\xml\tinystr.h">
+      <Filter>Header Files\tinyxml</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\xml\tinyxml.h">
+      <Filter>Header Files\tinyxml</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\xml\tinyxml2.h">
+      <Filter>Header Files\tinyxml</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="exampleVert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="exampleFrag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>
