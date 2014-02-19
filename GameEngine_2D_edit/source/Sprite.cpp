@@ -61,8 +61,8 @@ Sprite::Sprite( const char* a_pTexture, int a_iWidth, int a_iHeight, vec4 a_v4Co
 
 	GameWindow = window;
 
-	LoadVertShader("../resources/exampleVert.glsl");
-	LoadFragShader("../resources/exampleFrag.glsl");
+	LoadVertShader("exampleVert.glsl");
+	LoadFragShader("exampleFrag.glsl");
 	LinkShaders();
 
 	m_v4SpriteColor = a_v4Color;
@@ -129,7 +129,7 @@ Sprite::Sprite( const char* a_pTexture, int a_iWidth, int a_iHeight, vec4 a_v4Co
 	m_v2Scale = vec3(a_iWidth,a_iHeight,0.0f);
 	m_v3Position = vec3(0,0,0);
 
-	ViewLookAt(vec4(0,0,0,0),vec4(0,0,.5,0),vec4(0,1,0,0), viewMatrix);
+	//ViewLookAt(vec4(0,0,0,0),vec4(0,0,.5,0),vec4(0,1,0,0), viewMatrix);
 
 	modelMatrix = glm::translate(modelMatrix,m_v3Position);
 
@@ -171,7 +171,7 @@ Sprite::Sprite( const char* a_pTexture, int a_iWidth, int a_iHeight, vec4 a_v4Co
 
 }
 
-void Sprite::Draw()
+void Sprite::Draw(mat4 &Ortho)
 {
 	glBlendFunc (m_uSourceBlendMode, m_uDestinationBlendMode);
 	glUseProgram(m_ShaderProgram);
@@ -221,3 +221,43 @@ void Sprite::Input()
 	}
 
 }
+
+vec4 crossVec4(vec4 _v1, vec4 _v2){
+	vec3 vec1 = vec3(_v1[0], _v1[1], _v1[2]);
+	vec3 vec2 = vec3(_v2[0], _v2[1], _v2[2]);
+	vec3 res = glm::cross(vec1, vec2);
+	return vec4(res[0], res[1], res[2], 1);
+}
+
+/*
+void ViewLookAt(vec4& vCameraPos, vec4& vTargetPos, vec4& up_direction, vec4 * mat)
+{
+	vec4 vForward = vTargetPos-vCameraPos;
+	vForward = glm::normalize(vForward);
+
+	vec4 vRight = crossVec4(vForward, up_direction);
+	vRight = glm::normalize(vRight);
+
+	vec4 vUp = crossVec4(vForward, vRight);
+
+	mat->m_afArray[0] = vRight.x; 
+	mat->m_afArray[4] = vRight.y; 
+	mat->m_afArray[8] = vRight.z; 
+	mat->m_afArray[12] = -(glm::dot(vRight, vCameraPos));   
+
+	mat->m_afArray[1] = vUp.x;
+	mat->m_afArray[5] = vUp.y;
+	mat->m_afArray[9] = vUp.z;
+	mat->m_afArray[13] = -(glm::dot(vUp, vCameraPos));  
+
+	mat->m_afArray[2] = vForward.x; 
+	mat->m_afArray[6] = vForward.y; 
+	mat->m_afArray[10] = vForward.z; 
+	mat->m_afArray[14] = -(glm::dot(vForward, vCameraPos));   
+
+	mat->m_afArray[3] = 0.0f;
+	mat->m_afArray[7] = 0.0f;
+	mat->m_afArray[11] = 0.0f;
+	mat->m_afArray[15] = 1.0f;
+}
+*/

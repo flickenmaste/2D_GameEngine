@@ -87,18 +87,14 @@ unsigned int Engine::OpenWindow()
 // Run the game
 void Engine::RunGame()
 {
-	glm::mat4 Ortho;
-	Ortho = glm::ortho(0.0f, g_gl_width, g_gl_height, 0.0f, -5.0f, 5.0f);
+	mat4 Ortho;
+	Ortho = glm::ortho(0.0f, g_gl_width, 0.0f, g_gl_height);
 	
 	Text type;
 	type.InitFT("Candy Script_48");
-	
-	Sprite player;
+
 	mat4 trans;
-	mat4 enemyMat;
-	player.LoadTexture("face.bmp", trans);
-	Sprite enemy;
-	enemy.LoadTexture("island.png", enemyMat);
+	Sprite * tester = new Sprite("face.bmp", 256, 256, vec4(1,1,1,1), window);
 	
 	// Draw stuff
 	while (!glfwWindowShouldClose (window))
@@ -111,14 +107,12 @@ void Engine::RunGame()
 		// Wipe the drawing surface clear
 		glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		// Draw sprite
-		player.DrawTex(trans, Ortho);
-		enemy.DrawTex(enemyMat, Ortho);
-		//type.DrawFont("Terry Sucks");	// Draws text
+		tester->Draw(Ortho);
 		// Update other events like input handling
 		glfwPollEvents ();
-		Input::Rotate(window, player, trans);
-		Input::Scale(window, player, trans);
-		Input::Move(window, player, trans);
+		Input::Rotate(window, *tester, trans);
+		Input::Scale(window, *tester, trans);
+		Input::Move(window, *tester, trans);
 		// Put the stuff we've been drawing on the display
 		glfwSwapBuffers (window);
 	}

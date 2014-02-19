@@ -13,13 +13,14 @@ public:
 	Sprite(void);
 	~Sprite(void);
 	Sprite( const char* a_pTexture, int a_iWidth, int a_iHeight, vec4 a_v4Color,GLFWwindow* );
-	void Draw();
+	void Draw(mat4 &Ortho);
 	void Input();
 
 	GLint uniTrans;
 
 	void SetVertexData( Vertex* a_vertexData );
 	const Vertex* GetVertexData() const;
+	//void ViewLookAt(vec4& vCameraPos, vec4& vTargetPos, vec4& up_direction, mat4 * mat);
 
 private:
 
