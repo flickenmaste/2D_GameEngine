@@ -88,8 +88,8 @@ Sprite::Sprite( const char* a_pTexture, int a_iWidth, int a_iHeight, vec4 a_v4Co
 
 
 	m_aoVerts[0].UV = vec2(0.0f,  0.0f);
-	m_aoVerts[1].UV = vec2(0.0f,  1.0f);
-	m_aoVerts[2].UV = vec2(1.0f,  0.0f);
+	m_aoVerts[1].UV = vec2(1.0f,  0.0f);
+	m_aoVerts[2].UV = vec2(0.0f,  1.0f);
 	m_aoVerts[3].UV = vec2(1.0f,  1.0f);
 
 	GLuint elements[] =
@@ -126,11 +126,13 @@ Sprite::Sprite( const char* a_pTexture, int a_iWidth, int a_iHeight, vec4 a_v4Co
 	glVertexAttribPointer(uvAttrib, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(7 * sizeof(float)));
 
 	glBindVertexArray(0);
-	m_v2Scale = vec3(a_iWidth,a_iHeight,0.0f);
+	m_v2Scale = vec3(a_iWidth,a_iHeight,1.0f);
 	m_v3Position = vec3(0,0,0);
 
 	//ViewLookAt(vec4(0,0,0,0),vec4(0,0,.5,0),vec4(0,1,0,0), viewMatrix);
 
+	modelMatrix[3][3] = 1.f;
+	modelMatrix = glm::scale(modelMatrix, m_v2Scale);
 	modelMatrix = glm::translate(modelMatrix,m_v3Position);
 
 
@@ -173,18 +175,23 @@ Sprite::Sprite( const char* a_pTexture, int a_iWidth, int a_iHeight, vec4 a_v4Co
 
 void Sprite::Draw(mat4 &Ortho)
 {
+	glBindTexture(GL_TEXTURE_2D, m_uiTexture);
 	glBlendFunc (m_uSourceBlendMode, m_uDestinationBlendMode);
 	glUseProgram(m_ShaderProgram);
 	glActiveTexture(GL_TEXTURE0);
 	glUniform1i (tex_location, 0); 
 
-
-	modelMatrix = glm::scale(modelMatrix, m_v2Scale);
+	//modelMatrix = glm::scale(modelMatrix, m_v2Scale);
 	modelMatrix = glm::translate(modelMatrix, m_v3Position);
 
-
+	
 	mat4 MVP = Ortho * modelMatrix;
 
+	float dArray[16] = {0.0};
+
+	const float *pSource = (const float*)glm::value_ptr(MVP);
+	for (int i = 0; i < 16; ++i)
+		dArray[i] = pSource[i];
 
 	//	glUniformMatrix4fv (matrix_location, 1, GL_FALSE, modelMatrix->m_afArray);
 	//	glUniformMatrix4fv (view_location, 1, GL_FALSE, viewMatrix->m_afArray);
@@ -195,29 +202,30 @@ void Sprite::Draw(mat4 &Ortho)
 	glBindVertexArray(m_VAO);
 
 
-	glDrawElements(GL_TRIANGLE_STRIP, 4,GL_UNSIGNED_INT,0);	
+	glDrawElements(GL_TRIANGLE_STRIP, 4,GL_UNSIGNED_INT,0);
+	glBindTexture(GL_TEXTURE_2D, NULL);
 }
 
 void Sprite::Input()
 {
 	if (GLFW_PRESS == glfwGetKey(GameWindow, GLFW_KEY_W))
 	{
-		m_v3Position += vec3(0.0f, 1.f, 0.0f);
+		modelMatrix = glm::translate(modelMatrix, vec3(0.0f, 0.01f, 0.0f));
 	}
 
 	if (GLFW_PRESS == glfwGetKey(GameWindow, GLFW_KEY_A))
 	{
-		m_v3Position += vec3(-1.f, 0.0f, 0.0f);
+		modelMatrix = glm::translate(modelMatrix, vec3(-0.01f, 0.0f, 0.0f));
 	}
 
 	if (GLFW_PRESS == glfwGetKey(GameWindow, GLFW_KEY_S))
 	{
-		m_v3Position += vec3(0.0f, -1.f, 0.0f);
+		modelMatrix = glm::translate(modelMatrix, vec3(0.0f, -0.01f, 0.0f));
 	}
 
 	if (GLFW_PRESS == glfwGetKey(GameWindow, GLFW_KEY_D))
 	{
-		m_v3Position += vec3(1.f, 0.0f, 0.0f);
+		modelMatrix = glm::translate(modelMatrix, vec3(0.01f, 0.0f, 0.0f));
 	}
 
 }

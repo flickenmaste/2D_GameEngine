@@ -79,7 +79,9 @@ unsigned int Engine::OpenWindow()
 
 	// Tell GL to only draw onto a pixel if the shape is closer to the viewer
 	glEnable (GL_DEPTH_TEST);	// enable depth-testing
+	glEnable(GL_ALPHA_TEST);
 	glDepthFunc (GL_LESS);
+	glAlphaFunc(GL_GREATER, 0.0f);
 	// Depth-testing interprets a smaller value as "closer"
 
 }
@@ -88,7 +90,7 @@ unsigned int Engine::OpenWindow()
 void Engine::RunGame()
 {
 	glm::mat4 Ortho;
-	Ortho = glm::ortho(0.0f, g_gl_width, g_gl_height, 0.0f, -5.0f, 5.0f);
+	Ortho = glm::ortho(0.0f, g_gl_width, 0.0f, g_gl_height);
 	
 	Text type;
 	type.InitFT("Candy Script_48");

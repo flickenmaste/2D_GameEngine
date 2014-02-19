@@ -79,7 +79,9 @@ unsigned int Engine::OpenWindow()
 
 	// Tell GL to only draw onto a pixel if the shape is closer to the viewer
 	glEnable (GL_DEPTH_TEST);	// enable depth-testing
+	glEnable(GL_ALPHA_TEST);
 	glDepthFunc (GL_LESS);
+	glAlphaFunc(GL_GREATER, 0.0f);
 	// Depth-testing interprets a smaller value as "closer"
 
 }
@@ -88,13 +90,20 @@ unsigned int Engine::OpenWindow()
 void Engine::RunGame()
 {
 	mat4 Ortho;
-	Ortho = glm::ortho(0.0f, g_gl_width, 0.0f, g_gl_height);
-	
+	Ortho = glm::ortho(0.0f, g_gl_width, 0.0f, g_gl_height, 0.0f, -1.0f);
+
+	float dArray[16] = {0.0};
+
+	const float *pSource = (const float*)glm::value_ptr(Ortho);
+	for (int i = 0; i < 16; ++i)
+		dArray[i] = pSource[i];
+
 	Text type;
 	type.InitFT("Candy Script_48");
 
 	mat4 trans;
 	Sprite * tester = new Sprite("face.bmp", 256, 256, vec4(1,1,1,1), window);
+	Sprite * enemy = new Sprite("island.png", 256, 256, vec4(1,1,1,1), window);
 	
 	// Draw stuff
 	while (!glfwWindowShouldClose (window))
@@ -108,11 +117,10 @@ void Engine::RunGame()
 		glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		// Draw sprite
 		tester->Draw(Ortho);
+		tester->Input();
+		enemy->Draw(Ortho);
 		// Update other events like input handling
 		glfwPollEvents ();
-		Input::Rotate(window, *tester, trans);
-		Input::Scale(window, *tester, trans);
-		Input::Move(window, *tester, trans);
 		// Put the stuff we've been drawing on the display
 		glfwSwapBuffers (window);
 	}
