@@ -6,6 +6,8 @@
 
 #include <SOIL.h>
 #include <Entity.h>
+#include <tinyxml2.h>
+#include <vector>
 
 class Sprite : public Entity
 {
@@ -14,15 +16,20 @@ public:
 	~Sprite(void);
 	Sprite( const char* a_pTexture, int a_iWidth, int a_iHeight, vec4 a_v4Color,GLFWwindow* );
 	void Draw(mat4 &Ortho);
-	void Input();
+	void Input(float a_deltaTime);
 
 	GLint uniTrans;
 
 	void SetVertexData( Vertex* a_vertexData );
 	const Vertex* GetVertexData() const;
 	//void ViewLookAt(vec4& vCameraPos, vec4& vTargetPos, vec4& up_direction, mat4 * mat);
+	std::vector<glm::vec4> animPos;
+	void SetUVData();
+	float animFrames;
+	void SetAnim(const char * filename);
+	void Animate(mat4 &Ortho);
 
-private:
+protected:
 
 	Vertex m_aoVerts[4];
 
@@ -37,6 +44,7 @@ private:
 	vec2 m_maxUVCoords;
 	vec2 m_uvScale;
 	vec2 m_uvOffset;
+	float m_fZoom;
 
 	unsigned int m_uiTexture;
 	GLFWwindow * GameWindow;

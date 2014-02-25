@@ -4,6 +4,8 @@
 #include <Engine.h>
 #include <Sprite.h>
 
+using namespace tinyxml2;
+
 Sprite::Sprite(void)
 {
 	//Default Shaders for Default constructor
@@ -206,31 +208,99 @@ void Sprite::Draw(mat4 &Ortho)
 	glBindTexture(GL_TEXTURE_2D, NULL);
 }
 
-void Sprite::Input()
+void Sprite::Input(float a_deltaTime)
 {
 	if (GLFW_PRESS == glfwGetKey(GameWindow, GLFW_KEY_W))
 	{
-		modelMatrix = glm::translate(modelMatrix, vec3(0.0f, 0.01f, 0.0f));
+		modelMatrix = glm::translate(modelMatrix, vec3(0.0f, 0.01f, 0.0f) * a_deltaTime);
 	}
 
 	if (GLFW_PRESS == glfwGetKey(GameWindow, GLFW_KEY_A))
 	{
-		modelMatrix = glm::translate(modelMatrix, vec3(-0.01f, 0.0f, 0.0f));
+		modelMatrix = glm::translate(modelMatrix, vec3(-0.01f, 0.0f, 0.0f) * a_deltaTime);
 	}
 
 	if (GLFW_PRESS == glfwGetKey(GameWindow, GLFW_KEY_S))
 	{
-		modelMatrix = glm::translate(modelMatrix, vec3(0.0f, -0.01f, 0.0f));
+		modelMatrix = glm::translate(modelMatrix, vec3(0.0f, -0.01f, 0.0f) * a_deltaTime);
 	}
 
 	if (GLFW_PRESS == glfwGetKey(GameWindow, GLFW_KEY_D))
 	{
-		modelMatrix = glm::translate(modelMatrix, vec3(0.01f, 0.0f, 0.0f));
+		modelMatrix = glm::translate(modelMatrix, vec3(0.01f, 0.0f, 0.0f) * a_deltaTime);
 	}
 
 }
 
-vec4 crossVec4(vec4 _v1, vec4 _v2){
+void Sprite::SetUVData()
+{
+	m_aoVerts[0].UV = vec2(m_minUVCoords.x/m_uvScale.y, m_minUVCoords.y/m_uvScale.y);
+	m_aoVerts[1].UV = vec2(m_minUVCoords.x/m_uvScale.x, m_maxUVCoords.y/m_uvScale.y);
+	m_aoVerts[2].UV = vec2(m_maxUVCoords.x/m_uvScale.x, m_minUVCoords.y/m_uvScale.y);
+	m_aoVerts[3].UV = vec2(m_maxUVCoords.x/m_uvScale.x, m_maxUVCoords.y/m_uvScale.y);
+}
+
+void Sprite::SetAnim(const char * filename)
+{
+	animFrames = 0;
+	tinyxml2::XMLDocument doc;
+	doc.LoadFile(filename);
+
+	tinyxml2::XMLElement * currentNode;
+	currentNode = doc.FirstChildElement("TextureAtlas");
+
+	currentNode = currentNode->FirstChildElement();
+
+	for(int i = 0; currentNode != NULL; i++)
+	{
+		float iX0= currentNode->FloatAttribute("x");
+		float iY0 = currentNode->FloatAttribute("y");
+		float iX1= currentNode->FloatAttribute("width");
+		float iY1 = currentNode->FloatAttribute("height");
+		glm::vec4 Pos(iX0,iX1,iY0,iY1);
+
+		animPos.push_back(Pos);
+
+		currentNode = currentNode->NextSiblingElement();
+		animFrames++;
+	}
+}
+
+void Sprite::Animate(mat4 &Ortho)
+{
+	glBindTexture(GL_TEXTURE_2D, m_uiTexture);
+	glBlendFunc (m_uSourceBlendMode, m_uDestinationBlendMode);
+	glUseProgram(m_ShaderProgram);
+	glActiveTexture(GL_TEXTURE0);
+	glUniform1i (tex_location, 0); 
+
+	//modelMatrix = glm::scale(modelMatrix, m_v2Scale);
+	modelMatrix = glm::translate(modelMatrix, m_v3Position);
+
+
+	mat4 MVP = Ortho * modelMatrix;
+
+	float dArray[16] = {0.0};
+
+	const float *pSource = (const float*)glm::value_ptr(MVP);
+	for (int i = 0; i < 16; ++i)
+		dArray[i] = pSource[i];
+
+	//	glUniformMatrix4fv (matrix_location, 1, GL_FALSE, modelMatrix->m_afArray);
+	//	glUniformMatrix4fv (view_location, 1, GL_FALSE, viewMatrix->m_afArray);
+	//	glUniformMatrix4fv (proj_location, 1, GL_FALSE, Ortho->m_afArray);
+
+	glUniformMatrix4fv (matrix_location, 1, GL_FALSE, glm::value_ptr(MVP));
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
+	glBindVertexArray(m_VAO);
+
+
+	glDrawElements(GL_TRIANGLE_STRIP, 4,GL_UNSIGNED_INT,0);
+	glBindTexture(GL_TEXTURE_2D, NULL);
+}
+
+vec4 crossVec4(vec4 _v1, vec4 _v2)
+{
 	vec3 vec1 = vec3(_v1[0], _v1[1], _v1[2]);
 	vec3 vec2 = vec3(_v2[0], _v2[1], _v2[2]);
 	vec3 res = glm::cross(vec1, vec2);

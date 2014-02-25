@@ -56,6 +56,9 @@
   <ItemGroup>
     <None Include="exampleFrag.glsl" />
     <None Include="exampleVert.glsl" />
+    <None Include="sheet.xml">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{0E067981-23E2-46BA-9228-BA63995A6526}</ProjectGuid>

@@ -104,10 +104,17 @@ void Engine::RunGame()
 	mat4 trans;
 	Sprite * tester = new Sprite("face.bmp", 256, 256, vec4(1,1,1,1), window);
 	Sprite * enemy = new Sprite("island.png", 256, 256, vec4(1,1,1,1), window);
-	
+	Sprite * idleAnim = new Sprite("sheet.png", 256, 1024, vec4(1,1,1,1), window);
+	idleAnim->SetAnim("sheet.xml");
+
+	float oldTimeSinceStart = 0;
 	// Draw stuff
 	while (!glfwWindowShouldClose (window))
 	{
+		// Delta time
+		float timeSinceStart = glfwGetTime();
+		float deltaTime = (timeSinceStart - oldTimeSinceStart) * 150.0f;
+		oldTimeSinceStart = timeSinceStart;
 		// Draw FPS
 		_update_fps_counter (window);
 		
@@ -117,8 +124,10 @@ void Engine::RunGame()
 		glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		// Draw sprite
 		tester->Draw(Ortho);
-		tester->Input();
+		//tester->Input(deltaTime);
 		enemy->Draw(Ortho);
+		idleAnim->Animate(Ortho);
+		idleAnim->Input(deltaTime);
 		// Update other events like input handling
 		glfwPollEvents ();
 		// Put the stuff we've been drawing on the display
