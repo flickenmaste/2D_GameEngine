@@ -232,14 +232,6 @@ void Sprite::Input(float a_deltaTime)
 
 }
 
-void Sprite::SetUVData()
-{
-	m_aoVerts[0].UV = vec2(m_minUVCoords.x/m_uvScale.y, m_minUVCoords.y/m_uvScale.y);
-	m_aoVerts[1].UV = vec2(m_minUVCoords.x/m_uvScale.x, m_maxUVCoords.y/m_uvScale.y);
-	m_aoVerts[2].UV = vec2(m_maxUVCoords.x/m_uvScale.x, m_minUVCoords.y/m_uvScale.y);
-	m_aoVerts[3].UV = vec2(m_maxUVCoords.x/m_uvScale.x, m_maxUVCoords.y/m_uvScale.y);
-}
-
 void Sprite::SetAnim(const char * filename)
 {
 	animFrames = 0;
@@ -257,7 +249,7 @@ void Sprite::SetAnim(const char * filename)
 		float iY0 = currentNode->FloatAttribute("y");
 		float iX1= currentNode->FloatAttribute("width");
 		float iY1 = currentNode->FloatAttribute("height");
-		glm::vec4 Pos(iX0,iX1,iY0,iY1);
+		glm::vec4 Pos(iX0,iX1,iY0,iY1); // x0, x1, y0, y1 = x, y, z, w
 
 		animPos.push_back(Pos);
 
@@ -266,7 +258,33 @@ void Sprite::SetAnim(const char * filename)
 	}
 }
 
+void Sprite::SetUVData(vec2 &a_min, vec2 &a_max)
+{
+	m_minUVCoords = a_min;
+	m_maxUVCoords = a_max;
+
+	cout << m_aoVerts[0].UV.x << " " << m_aoVerts[0].UV.y << endl;
+	m_aoVerts[0].UV = vec2(m_minUVCoords.x/m_uvScale.y, m_minUVCoords.y/m_uvScale.y);
+	cout << m_aoVerts[0].UV.x << " " << m_aoVerts[0].UV.y << endl;
+	m_aoVerts[0].UV = glm::normalize(vec2(m_minUVCoords.x/m_uvScale.y, m_minUVCoords.y/m_uvScale.y));
+	cout << m_aoVerts[0].UV.x << " " << m_aoVerts[0].UV.y << endl;
+	m_aoVerts[1].UV = glm::normalize(vec2(m_minUVCoords.x/m_uvScale.x, m_maxUVCoords.y/m_uvScale.y));
+	m_aoVerts[2].UV = glm::normalize(vec2(m_maxUVCoords.x/m_uvScale.x, m_minUVCoords.y/m_uvScale.y));
+	m_aoVerts[3].UV = glm::normalize(vec2(m_maxUVCoords.x/m_uvScale.x, m_maxUVCoords.y/m_uvScale.y));
+}
+
 void Sprite::Animate(mat4 &Ortho)
+{
+	for (int i = 0; i < animFrames; i++)
+	{
+		AnimDraw(Ortho);
+		vec2 min(animPos[i].x, animPos[i].z);
+		vec2 max(animPos[i].y, animPos[i].w);
+		SetUVData(min, max);
+	}
+}
+
+void Sprite::AnimDraw(mat4 &Ortho)
 {
 	glBindTexture(GL_TEXTURE_2D, m_uiTexture);
 	glBlendFunc (m_uSourceBlendMode, m_uDestinationBlendMode);
@@ -291,9 +309,12 @@ void Sprite::Animate(mat4 &Ortho)
 	//	glUniformMatrix4fv (proj_location, 1, GL_FALSE, Ortho->m_afArray);
 
 	glUniformMatrix4fv (matrix_location, 1, GL_FALSE, glm::value_ptr(MVP));
+	
+	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+	glBufferData(GL_ARRAY_BUFFER, 4* sizeof(Vertex), m_aoVerts,GL_DYNAMIC_DRAW);
+
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
 	glBindVertexArray(m_VAO);
-
 
 	glDrawElements(GL_TRIANGLE_STRIP, 4,GL_UNSIGNED_INT,0);
 	glBindTexture(GL_TEXTURE_2D, NULL);
