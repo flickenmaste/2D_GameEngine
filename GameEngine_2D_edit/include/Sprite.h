@@ -24,8 +24,10 @@ public:
 	const Vertex* GetVertexData() const;
 	//void ViewLookAt(vec4& vCameraPos, vec4& vTargetPos, vec4& up_direction, mat4 * mat);
 	std::vector<glm::vec4> animPos;
-	void SetUVData(vec2 &a_min, vec2 &a_max);
+	std::vector<glm::vec2> animWH;
+	void SetUVData(vec2 &a_min, vec2 &a_max, vec2 &scale);
 	float animFrames;
+	float sheetW, sheetH;
 	void SetAnim(const char * filename);
 	void Animate(mat4 &Ortho);
 	void AnimDraw(mat4 &Ortho);

@@ -240,6 +240,8 @@ void Sprite::SetAnim(const char * filename)
 
 	tinyxml2::XMLElement * currentNode;
 	currentNode = doc.FirstChildElement("TextureAtlas");
+	sheetW = currentNode->FloatAttribute("width");
+	sheetH = currentNode->FloatAttribute("height");
 
 	currentNode = currentNode->FirstChildElement();
 
@@ -250,27 +252,26 @@ void Sprite::SetAnim(const char * filename)
 		float iX1= currentNode->FloatAttribute("width");
 		float iY1 = currentNode->FloatAttribute("height");
 		glm::vec4 Pos(iX0,iX1,iY0,iY1); // x0, x1, y0, y1 = x, y, z, w
+		glm::vec2 WH(iX1 - iX0, iY1 - iY0); // width height
 
 		animPos.push_back(Pos);
+		animWH.push_back(WH);
 
 		currentNode = currentNode->NextSiblingElement();
 		animFrames++;
 	}
 }
 
-void Sprite::SetUVData(vec2 &a_min, vec2 &a_max)
+void Sprite::SetUVData(vec2 &a_min, vec2 &a_max, vec2 &scale)
 {
 	m_minUVCoords = a_min;
 	m_maxUVCoords = a_max;
+	m_uvScale = scale;
 
-	cout << m_aoVerts[0].UV.x << " " << m_aoVerts[0].UV.y << endl;
 	m_aoVerts[0].UV = vec2(m_minUVCoords.x/m_uvScale.y, m_minUVCoords.y/m_uvScale.y);
-	cout << m_aoVerts[0].UV.x << " " << m_aoVerts[0].UV.y << endl;
-	m_aoVerts[0].UV = glm::normalize(vec2(m_minUVCoords.x/m_uvScale.y, m_minUVCoords.y/m_uvScale.y));
-	cout << m_aoVerts[0].UV.x << " " << m_aoVerts[0].UV.y << endl;
-	m_aoVerts[1].UV = glm::normalize(vec2(m_minUVCoords.x/m_uvScale.x, m_maxUVCoords.y/m_uvScale.y));
-	m_aoVerts[2].UV = glm::normalize(vec2(m_maxUVCoords.x/m_uvScale.x, m_minUVCoords.y/m_uvScale.y));
-	m_aoVerts[3].UV = glm::normalize(vec2(m_maxUVCoords.x/m_uvScale.x, m_maxUVCoords.y/m_uvScale.y));
+	m_aoVerts[1].UV = vec2(m_minUVCoords.x/m_uvScale.x, m_maxUVCoords.y/m_uvScale.y);
+	m_aoVerts[2].UV = vec2(m_maxUVCoords.x/m_uvScale.x, m_minUVCoords.y/m_uvScale.y);
+	m_aoVerts[3].UV = vec2(m_maxUVCoords.x/m_uvScale.x, m_maxUVCoords.y/m_uvScale.y);
 }
 
 void Sprite::Animate(mat4 &Ortho)
@@ -278,9 +279,10 @@ void Sprite::Animate(mat4 &Ortho)
 	for (int i = 0; i < animFrames; i++)
 	{
 		AnimDraw(Ortho);
-		vec2 min(animPos[i].x, animPos[i].z);
-		vec2 max(animPos[i].y, animPos[i].w);
-		SetUVData(min, max);
+		vec2 min(animPos[i].z, animPos[i].x);
+		vec2 max(animPos[i].w, animPos[i].y);
+		vec2 scale(animWH[i].x, animWH[i].y);
+		SetUVData(min, max, scale);
 	}
 }
 
