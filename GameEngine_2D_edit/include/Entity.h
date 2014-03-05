@@ -5,6 +5,7 @@
 #define __ENTITY_H__
 
 #include <GL\glew.h>
+#include <GL\glfw3.h>
 #include <GLlog.h>
 #include <TextFileReader.h>
 #include <Vector2.h>

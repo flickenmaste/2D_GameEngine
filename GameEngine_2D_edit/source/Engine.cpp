@@ -106,6 +106,8 @@ void Engine::RunGame()
 	Sprite * enemy = new Sprite("island.png", 256, 256, vec4(1,1,1,1), window);
 	Sprite * idleAnim = new Sprite("sheet.png", 256, 1024, vec4(1,1,1,1), window);
 	idleAnim->SetAnim("sheet.xml");
+	FontManager * fntMan = new FontManager();
+	fntMan->LoadFont("NESish.xml");
 
 	float oldTimeSinceStart = 0;
 	// Draw stuff
@@ -128,6 +130,7 @@ void Engine::RunGame()
 		enemy->Draw(Ortho);
 		idleAnim->Animate(Ortho);
 		idleAnim->Input(deltaTime);
+		fntMan->DrawString("Hello World\n", vec2(0, g_gl_height/2), 1, Ortho);
 		// Update other events like input handling
 		glfwPollEvents ();
 		// Put the stuff we've been drawing on the display

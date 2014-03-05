@@ -90,6 +90,9 @@
     <ClCompile Include="libs\xml\tinyxmlparser.cpp">
       <Filter>Source Files\tinyxml</Filter>
     </ClCompile>
+    <ClCompile Include="source\FontManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Engine.h">
@@ -151,6 +154,9 @@
     </ClInclude>
     <ClInclude Include="libs\xml\tinyxml2.h">
       <Filter>Header Files\tinyxml</Filter>
+    </ClInclude>
+    <ClInclude Include="include\FontManager.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

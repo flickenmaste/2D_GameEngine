@@ -20,6 +20,7 @@
     <ClCompile Include="source\as.cpp" />
     <ClCompile Include="source\Engine.cpp" />
     <ClCompile Include="source\Entity.cpp" />
+    <ClCompile Include="source\FontManager.cpp" />
     <ClCompile Include="source\GameStates.cpp" />
     <ClCompile Include="source\GLlog.cpp" />
     <ClCompile Include="source\Input.cpp" />
@@ -35,6 +36,7 @@
     <ClInclude Include="include\as.h" />
     <ClInclude Include="include\Engine.h" />
     <ClInclude Include="include\Entity.h" />
+    <ClInclude Include="include\FontManager.h" />
     <ClInclude Include="include\GameStates.h" />
     <ClInclude Include="include\GLlog.h" />
     <ClInclude Include="include\Input.h" />

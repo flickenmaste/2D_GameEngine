@@ -208,6 +208,24 @@ void Sprite::Draw(mat4 &Ortho)
 	glBindTexture(GL_TEXTURE_2D, NULL);
 }
 
+void Sprite::Draw()
+{
+	glBlendFunc (m_uSourceBlendMode, m_uDestinationBlendMode);
+	glUseProgram(m_ShaderProgram);
+
+	glActiveTexture(GL_TEXTURE0);
+	glUniform1i (tex_location, 0); 
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
+	glBindVertexArray(m_VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+
+	//Put Data into buffers
+	glBufferData(GL_ARRAY_BUFFER, 4* sizeof(Vertex), m_aoVerts, GL_STATIC_DRAW);
+
+	glDrawElements(GL_TRIANGLE_STRIP, 4,GL_UNSIGNED_INT,0);	
+}
+
 void Sprite::Input(float a_deltaTime)
 {
 	if (GLFW_PRESS == glfwGetKey(GameWindow, GLFW_KEY_W))
@@ -274,6 +292,14 @@ void Sprite::SetUVData(vec2 &a_min, vec2 &a_max, vec2 &scale)
 	m_aoVerts[3].UV = vec2(m_maxUVCoords.x/m_uvScale.x, m_maxUVCoords.y/m_uvScale.y);
 }
 
+void Sprite::SetUVData()
+{
+	m_aoVerts[0].UV = vec2(m_minUVCoords.x/m_uvScale.x,m_minUVCoords.y/m_uvScale.y);
+	m_aoVerts[1].UV = vec2(m_minUVCoords.x/m_uvScale.x,m_maxUVCoords.y/m_uvScale.y);
+	m_aoVerts[2].UV = vec2(m_maxUVCoords.x/m_uvScale.x,m_minUVCoords.y/m_uvScale.y);
+	m_aoVerts[3].UV = vec2(m_maxUVCoords.x/m_uvScale.x,m_maxUVCoords.y/m_uvScale.y);
+}
+
 void Sprite::Animate(mat4 &Ortho)
 {
 	for (int i = 0; i < animFrames; i++)
@@ -320,6 +346,36 @@ void Sprite::AnimDraw(mat4 &Ortho)
 
 	glDrawElements(GL_TRIANGLE_STRIP, 4,GL_UNSIGNED_INT,0);
 	glBindTexture(GL_TEXTURE_2D, NULL);
+}
+
+void Sprite::LoadTexture(const char* a_pTexture)
+{
+	m_uiTexture = 0;
+
+	m_uSourceBlendMode	= GL_SRC_ALPHA;
+	m_uDestinationBlendMode = GL_ONE_MINUS_SRC_ALPHA;
+
+	glGenTextures(1, &m_uiTexture);
+	glActiveTexture (GL_TEXTURE0);
+
+	int width, height;
+	unsigned char* image = SOIL_load_image(a_pTexture, &width, &height, 0, SOIL_LOAD_RGBA);
+	glBindTexture( GL_TEXTURE_2D,m_uiTexture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
+	SOIL_free_image_data(image);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+
+	tex_location = glGetUniformLocation (m_ShaderProgram, "diffuseTexture");
+
+	m_minUVCoords = vec2( 0.f, 0.f );
+	m_maxUVCoords = vec2( 1.f, 1.f );
+	m_uvScale = vec2( 1.f, 1.f );
+	m_fZoom = 1.f;
 }
 
 vec4 crossVec4(vec4 _v1, vec4 _v2)

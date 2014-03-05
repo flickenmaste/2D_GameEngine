@@ -13,6 +13,7 @@
 #include <as.h>
 #include <GameStates.h>
 #include <Sprite.h>
+#include <FontManager.h>
 #include <Input.h>
 #include <Text.h>
 #include <Mathlib.h>
